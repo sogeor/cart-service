@@ -31,12 +31,9 @@ configurations {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.cloud:spring-cloud-starter-config")
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("org.springframework.boot:spring-boot-starter-kafka")
     implementation("org.springframework.boot:spring-boot-starter-security-oauth2-client")
     implementation("org.springframework.boot:spring-boot-starter-security")
@@ -57,13 +54,11 @@ dependencies {
         property("o.projectlombok.lombok-mapstruct-binding")
     }")
 
-    implementation("com.zaxxer:HikariCP:${property("c.zaxxer.HikariCP")}")
     implementation("org.mapstruct:mapstruct:${property("o.mapstruct.mapstruct")}")
     annotationProcessor("org.mapstruct:mapstruct-processor:${property("o.mapstruct.mapstruct")}")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux-test")
-    runtimeOnly("org.postgresql:r2dbc-postgresql")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
