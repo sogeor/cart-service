@@ -1,5 +1,6 @@
 package com.sogeor.service.cart.messaging;
 
+import com.sogeor.service.cart.messaging.event.ProductDeletedEvent;
 import com.sogeor.service.cart.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,8 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
-
-import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -18,14 +17,10 @@ public class ProductDeletedConsumer {
     private final CartRepository cartRepository;
 
     @KafkaListener(topics = "product-updates", groupId = "cart-service")
-    public void consumeProductEvents(Map<String, Object> message) {
-        String eventType = (String) message.get("eventType");
-
-        if ("PRODUCT_DELETED".equals(eventType)) {
-            String productId = (String) message.get("productId");
-            log.info("Received PRODUCT_DELETED event for productId: {}", productId);
-
-            removeProductFromCarts(productId).subscribe();
+    public void consumeProductEvents(ProductDeletedEvent event) {
+        if ("PRODUCT_DELETED".equals(event.getEventType())) {
+            log.info("Received PRODUCT_DELETED event for productId: {}", event.getProductId());
+            removeProductFromCarts(event.getProductId()).subscribe();
         }
     }
 
